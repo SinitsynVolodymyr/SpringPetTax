@@ -19,4 +19,9 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Email Not Found"));
         return user;
     }
+
+    public User saveUser(User user){
+        return userRepository.save(user);
+    }
+
 }
