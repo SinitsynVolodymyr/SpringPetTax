@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import ua.sinitsyn.exception.ThisEmailIsBusyException;
 import ua.sinitsyn.model.Role;
 import ua.sinitsyn.model.User;
 import ua.sinitsyn.service.UserService;
@@ -33,7 +34,13 @@ public class InitDatabase implements CommandLineRunner {
     public void run(String[] strings){
 
         if (!checkIsInitUserTable(userList)){
-            userList.stream().forEach(user -> userService.saveUser(user));
+            userList.stream().forEach(user -> {
+                try {
+                    userService.saveUser(user);
+                } catch (ThisEmailIsBusyException thisEmailIsCreated) {
+                    thisEmailIsCreated.printStackTrace();
+                }
+            });
         }
     }
 
