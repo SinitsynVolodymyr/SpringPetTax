@@ -2,10 +2,14 @@ package ua.sinitsyn.exception;
 
 public class ThisEmailIsBusyException extends Exception {
 
-    String email;
+    private String email;
 
     public ThisEmailIsBusyException(String email) {
         this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override
