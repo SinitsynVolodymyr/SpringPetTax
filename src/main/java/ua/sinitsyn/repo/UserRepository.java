@@ -1,7 +1,7 @@
 package ua.sinitsyn.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ua.sinitsyn.entity.User;
+import ua.sinitsyn.model.User;
 
 import java.util.Optional;
 

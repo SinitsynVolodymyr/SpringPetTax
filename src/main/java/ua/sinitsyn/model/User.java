@@ -1,7 +1,6 @@
-package ua.sinitsyn.entity;
+package ua.sinitsyn.model;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "users",

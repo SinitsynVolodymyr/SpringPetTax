@@ -1,4 +1,4 @@
-package ua.sinitsyn.entity;
+package ua.sinitsyn.model;
 
 public enum Role {
     USER,
