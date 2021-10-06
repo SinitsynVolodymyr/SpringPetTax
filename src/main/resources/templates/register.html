@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+</head>
+<body>
+<h1>Register</h1>
+    <div id="reg_errorConflict" style="display:none; color:red">Ця електрона адреса вже використовується</div>
+        Email: <input id="reg_email" type="text"><br>
+        Password: <input  id="reg_password" type="text"><br>
+        <button onclick="registerUser()">Зареєструватися</button>
+
+<script>
+
+class User {
+  constructor() {
+  }
+}
+
+    function registerUser() {
+  let email = document.getElementById('reg_email').value;
+  let password = document.getElementById('reg_password').value;
+  let docErrorShower = document.getElementById('reg_errorConflict');
+
+    let sendJson = new User();
+    sendJson['email'] = email;
+    sendJson['password'] = password;
+
+    let url = "/register";
+    let result = document.querySelector('.result');
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+         window.location.href = '/login';
+      }else if(xhr.status === 409){
+        docErrorShower.style.display = 'block';
+      }
+    };
+    var data = JSON.stringify(sendJson);
+    xhr.send(data);
+  }
+
+</script>
+</body>
+</html>
