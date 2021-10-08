@@ -36,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/auth/login").permitAll()
                     .defaultSuccessUrl("/cabinet")
                 .and()
-                    .logout().permitAll();
+                    .logout().permitAll()
+                    .logoutSuccessUrl("/");
     }
 
     @Override
