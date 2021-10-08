@@ -9,10 +9,20 @@
 <body>
 <h1>Register</h1>
     <div id="reg_errorConflict" style="display:none; color:red">Ця електрона адреса вже використовується</div>
+
+    <p>Будь-ласка вкажіть тип особи:</p>
+    <div>
+        <input id="reg_entrepreneur" type="radio" name="typeOrg" value="a1" checked> Фізична особа
+        <input id="reg_enterprise" type="radio" name="typeOrg" value="a1"> Юридична особа
+    </div>
+
+    <div>
+        Name: <input id="reg_name" type="text"><br>
         Email: <input id="reg_email" type="text"><br>
         Password: <input  id="reg_password" type="text"><br>
-        <button onclick="registerUser()">Зареєструватися</button>
+    </div>
 
+    <button onclick="registerUser()">Зареєструватися</button>
 <script>
 
 class User {
@@ -22,12 +32,20 @@ class User {
 
     function registerUser() {
   let email = document.getElementById('reg_email').value;
+  let name = document.getElementById('reg_name').value;
   let password = document.getElementById('reg_password').value;
   let docErrorShower = document.getElementById('reg_errorConflict');
+  let isEntrepreneur = document.getElementById('reg_entrepreneur').checked;
 
     let sendJson = new User();
+    sendJson['name'] = name;
     sendJson['email'] = email;
     sendJson['password'] = password;
+    if (isEntrepreneur){
+        sendJson['typeOrganisation'] = "ENTREPRENEUR";
+    }else{
+        sendJson['typeOrganisation'] = "ENTERPRISE";
+    }
 
     let url = "/register";
     let result = document.querySelector('.result');
