@@ -27,11 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .antMatchers("/register").not().authenticated()
-                    .antMatchers("/user/**").hasRole(Role.USER.name())
-                    .antMatchers("/inspector/**").hasRole(Role.INSPECTOR.name())
+                    .antMatchers("/cabinet/**").authenticated()
+                    .antMatchers("/cabinet/user/**").hasRole(Role.USER.name())
+                    .antMatchers("/cabinet/inspector/**").hasRole(Role.INSPECTOR.name())
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().permitAll()
+                    .defaultSuccessUrl("/cabinet")
                 .and()
                     .logout().permitAll();
     }
