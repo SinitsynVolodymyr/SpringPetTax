@@ -11,6 +11,8 @@ import ua.sinitsyn.dto.UserRegisterDto;
 import ua.sinitsyn.exception.ThisEmailIsBusyException;
 import ua.sinitsyn.service.UserService;
 
+import java.util.Locale;
+
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
@@ -30,12 +32,11 @@ public class RegisterController {
             userService.saveUser(user);
         } catch (ThisEmailIsBusyException e) {
             return new ResponseEntity<String>(HttpStatus.CONFLICT);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<String>(HttpStatus.OK);
     }
-
-
-
 
 }

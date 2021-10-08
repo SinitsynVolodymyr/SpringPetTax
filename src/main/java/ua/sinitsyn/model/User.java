@@ -30,19 +30,16 @@ public class User implements UserDetails {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Role role;
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private TypeOrganisation typeOrganisation;
 
     public User(String email, String name, String password, Role role, TypeOrganisation typeOrg) {
-        this(email, name, password, role);
-        this.typeOrganisation = typeOrg;
-    }
-
-    public User(String email, String name, String password, Role role) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.role = role;
+        this.typeOrganisation = typeOrg;
     }
 
     @Override

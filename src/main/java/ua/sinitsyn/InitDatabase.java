@@ -3,6 +3,7 @@ package ua.sinitsyn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ua.sinitsyn.exception.ThisEmailIsBusyException;
 import ua.sinitsyn.model.Role;
@@ -18,21 +19,31 @@ import java.util.stream.Stream;
 public class InitDatabase implements CommandLineRunner {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     List<User> userList = Stream.of(
             new User(
-                    "user@email.com"
-                    ,"user"
-                    , "$2a$12$7lSB0x8eD42B8jFlbhFh5e81ydMU5bTPtL0Ah4O.wwbmhJJetTTJq"
+                    "user1@email.com"
+                    ,"user1"
+                    , "user1"
+                    , Role.USER
+                    , TypeOrganisation.ENTREPRENEUR
+            ),
+            new User(
+                    "user2@email.com"
+                    ,"user2"
+                    , "user2"
                     , Role.USER
                     , TypeOrganisation.ENTERPRISE
             ),
             new User(
                     "insp@email.com"
                     ,"inspector"
-                    , "$2a$12$q0s6EWp1UcXtcAPdtmXvfuGOzlYPhdvvWlzYTHGQ4nPOekQRrEJce"
+                    , "ins"
                     , Role.INSPECTOR
+                    , TypeOrganisation.NONE
             )
     ).collect(Collectors.toList());
 

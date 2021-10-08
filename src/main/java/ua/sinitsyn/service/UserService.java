@@ -30,6 +30,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User saveUser(UserRegisterDto userDto) throws ThisEmailIsBusyException {
+        if (userDto.getTypeOrganisation().equalsIgnoreCase(
+                TypeOrganisation.NONE.name()))
+            throw new IllegalArgumentException();
+
         User user = new User(
                 userDto.getEmail(),
                 userDto.getName(),
