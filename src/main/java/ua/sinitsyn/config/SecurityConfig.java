@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/cabinet/inspector/**").hasRole(Role.INSPECTOR.name())
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin().permitAll()
+                    .formLogin()
+                    .loginPage("/auth/login").permitAll()
                     .defaultSuccessUrl("/cabinet")
                 .and()
                     .logout().permitAll();
