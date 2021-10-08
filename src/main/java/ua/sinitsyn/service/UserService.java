@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import ua.sinitsyn.dto.UserRegisterDto;
 import ua.sinitsyn.exception.ThisEmailIsBusyException;
 import ua.sinitsyn.model.Role;
+import ua.sinitsyn.model.TypeOrganisation;
 import ua.sinitsyn.model.User;
 import ua.sinitsyn.repo.UserRepository;
+
+import java.util.Locale;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -29,8 +32,12 @@ public class UserService implements UserDetailsService {
     public User saveUser(UserRegisterDto userDto) throws ThisEmailIsBusyException {
         User user = new User(
                 userDto.getEmail(),
+                userDto.getName(),
                 userDto.getPassword(),
-                Role.USER);
+                Role.USER,
+                TypeOrganisation.valueOf(
+                        userDto.getTypeOrganisation().toUpperCase(Locale.ROOT))
+        );
 
         return this.saveUser(user);
     }

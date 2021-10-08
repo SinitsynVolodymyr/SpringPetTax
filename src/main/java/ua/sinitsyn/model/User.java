@@ -24,13 +24,23 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Role role;
+    @Enumerated(value = EnumType.STRING)
+    private TypeOrganisation typeOrganisation;
 
-    public User(String email, String password, Role role) {
+    public User(String email, String name, String password, Role role, TypeOrganisation typeOrg) {
+        this(email, name, password, role);
+        this.typeOrganisation = typeOrg;
+    }
+
+    public User(String email, String name, String password, Role role) {
         this.email = email;
+        this.name = name;
         this.password = password;
         this.role = role;
     }

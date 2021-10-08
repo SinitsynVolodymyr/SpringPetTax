@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import ua.sinitsyn.exception.ThisEmailIsBusyException;
 import ua.sinitsyn.model.Role;
+import ua.sinitsyn.model.TypeOrganisation;
 import ua.sinitsyn.model.User;
 import ua.sinitsyn.service.UserService;
 
@@ -22,12 +23,17 @@ public class InitDatabase implements CommandLineRunner {
     List<User> userList = Stream.of(
             new User(
                     "user@email.com"
+                    ,"user"
                     , "$2a$12$7lSB0x8eD42B8jFlbhFh5e81ydMU5bTPtL0Ah4O.wwbmhJJetTTJq"
-                    , Role.USER),
+                    , Role.USER
+                    , TypeOrganisation.ENTERPRISE
+            ),
             new User(
                     "insp@email.com"
+                    ,"inspector"
                     , "$2a$12$q0s6EWp1UcXtcAPdtmXvfuGOzlYPhdvvWlzYTHGQ4nPOekQRrEJce"
-                    , Role.INSPECTOR)
+                    , Role.INSPECTOR
+            )
     ).collect(Collectors.toList());
 
 
