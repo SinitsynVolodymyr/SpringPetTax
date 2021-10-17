@@ -1,5 +1,6 @@
 package ua.sinitsyn.exception;
 
+@Deprecated
 public class ThisEmailIsBusyException extends Exception {
 
     private String email;

@@ -1,5 +1,6 @@
 package ua.sinitsyn;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -52,11 +53,8 @@ public class InitDatabase implements CommandLineRunner {
 
         if (!checkIsInitUserTable(userList)){
             userList.stream().forEach(user -> {
-                try {
                     userService.saveUser(user);
-                } catch (ThisEmailIsBusyException thisEmailIsCreated) {
-                    thisEmailIsCreated.printStackTrace();
-                }
+
             });
         }
     }

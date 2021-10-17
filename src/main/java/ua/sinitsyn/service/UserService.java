@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.sinitsyn.dto.UserRegisterDto;
-import ua.sinitsyn.exception.ThisEmailIsBusyException;
 import ua.sinitsyn.model.Role;
 import ua.sinitsyn.model.TypeOrganisation;
 import ua.sinitsyn.model.User;
@@ -24,12 +23,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Email Not Found"));
-        return user;
     }
 
-    public User saveUser(UserRegisterDto userDto) throws ThisEmailIsBusyException {
+    public User saveUser(UserRegisterDto userDto) {
         if (userDto.getTypeOrganisation().equalsIgnoreCase(
                 TypeOrganisation.NONE.name()))
             throw new IllegalArgumentException();
@@ -46,11 +44,8 @@ public class UserService implements UserDetailsService {
         return this.saveUser(user);
     }
 
-    public User saveUser(User user) throws ThisEmailIsBusyException {
+    public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (userRepository.findByEmail(user.getEmail()).isPresent()){
-            throw new ThisEmailIsBusyException(user.getEmail());
-        }
         return userRepository.save(user);
     }
 
