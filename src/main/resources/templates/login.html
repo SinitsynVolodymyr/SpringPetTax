@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Login</title>
 </head>
 <body>
+
+<H3 ALIGN="center" th:utext="#{label.hello}"></H3>
 <div class="container">
     <form class="form-signin" method="post" action="/auth/login">
         <h2 class="form-signin-heading">Login</h2>
@@ -19,5 +21,16 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 </div>
+
+
+<a  th:href="@{lang='ua'}"> Українська </a>
+<a  th:href="@{?lang='en'}">English</a>
+<a  th:href="@{..//(lang='en')}">English2</a>
+<a  th:href="@{./(lang='en')}">English3</a>
+<a  th:href="@{.//(lang='en')}">English4</a>
+<br>
+
+<a href="?lang=en">EN</a>
+<a href="?lang=ua">UA</a>
 </body>
 </html>
