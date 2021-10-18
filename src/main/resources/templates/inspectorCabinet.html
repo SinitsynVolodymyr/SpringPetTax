@@ -45,27 +45,30 @@
     <thead>
     <tr>
         <th> Report id </th>
+        <th> Username </th>
         <th> Value </th>
         <th> Status </th>
+        <th> Accept </th>
+        <th> Refuse </th>
     </tr>
     </thead>
     <tbody>
     <tr th:if="${reportList.empty}">
         <td colspan="2"> No reports available </td>
     </tr>
-    <tr th:each="report :  ${reportList}">
+    <tr th:each="report, iState :  ${reportList}">
         <td><span th:text="${report.id}"> id </span></td>
+        <td><span th:text="${report.username}"> username </span></td>
         <td><span th:text="${report.value}"> value </span></td>
         <td><span th:text="${report.reportStatus}"> status </span></td>
+        <td><button th:if="${report.reportStatus}=='SENT'" th:onclick="'acceptReport(' +${report.id} + ')'" type="button" class="btn btn-outline-primary">Accept</button></td>
+        <td><button th:if="${report.reportStatus}=='SENT'" th:onclick="'refuseReport(' +${report.id} + ')'" type="button" class="btn btn-outline-primary">Refuse</button></td>
+
     </tr>
     </tbody>
 </table>
 
-<div class="mb-3">
-    <label for="report_value" class="form-label">Add Report</label>
-    <input type="value" class="form-control" id="report_value" placeholder="value">
-    <button onclick="addReport()" type="button" class="btn btn-outline-primary">Send</button>
-</div>
+
 
 
 <script>
@@ -75,16 +78,28 @@ class Report {
   }
 }
 
-  function addReport() {
-    let usersCheckBox = document.getElementById('report_value').value;
-    console.log(usersCheckBox);
-    let sendJson = new Report();
-    sendJson['value'] = usersCheckBox;
 
-    let url = "/cabinet/user";
+  function acceptReport(id) {
+    putReport(id, "ACCEPTED");
+  }
+
+
+  function refuseReport(id) {
+    putReport(id, "UNACCEPTED");
+  }
+
+
+  function putReport(id, status) {
+
+
+    let sendJson = new Report();
+    sendJson['id'] = id;
+    sendJson['reportStatus'] = status;
+
+    let url = "/cabinet/inspector";
     let result = document.querySelector('.result');
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
+    xhr.open("PUT", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
