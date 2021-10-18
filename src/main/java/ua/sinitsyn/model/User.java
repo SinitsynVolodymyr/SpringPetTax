@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +35,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private TypeOrganisation typeOrganisation;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private Set<Report> reports;
+
 
     public User(String email, String name, String password, Role role, TypeOrganisation typeOrg) {
         this.email = email;
@@ -40,6 +46,12 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
         this.typeOrganisation = typeOrg;
+    }
+
+    public void addReport(Report report){
+        if (reports==null)
+            reports = new HashSet<>();
+        reports.add(report);
     }
 
     @Override
