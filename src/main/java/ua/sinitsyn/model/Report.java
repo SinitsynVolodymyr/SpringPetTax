@@ -21,6 +21,8 @@ public class Report {
     private String value;
     @ManyToOne
     private User user;
+    @Enumerated(value = EnumType.STRING)
+    private ReportStatus reportStatus = ReportStatus.SENT;
 
     public Report(String value) {
         this.value = value;

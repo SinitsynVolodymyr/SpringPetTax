@@ -46,6 +46,7 @@
     <tr>
         <th> Report id </th>
         <th> Value </th>
+        <th> Status </th>
     </tr>
     </thead>
     <tbody>
@@ -55,6 +56,7 @@
     <tr th:each="report, iState :  ${reportList}">
         <td><span th:text="${report.id}"> id </span></td>
         <td><span th:text="${report.value}"> value </span></td>
+        <td><span th:text="${report.reportStatus}"> status </span></td>
     </tr>
     </tbody>
 </table>

@@ -17,7 +17,7 @@ public class ReportService {
         return reportRepository.save(report);
     }
 
-    public List<Report> findVyUser(User user){
+    public List<Report> findByUser(User user){
         return reportRepository.findByUser(user);
     }
 

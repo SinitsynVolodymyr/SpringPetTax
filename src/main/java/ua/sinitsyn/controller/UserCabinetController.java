@@ -8,12 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.sinitsyn.dto.ReportDto;
+import ua.sinitsyn.dto.ReportInputDto;
 import ua.sinitsyn.model.Report;
+import ua.sinitsyn.model.ReportStatus;
 import ua.sinitsyn.model.User;
-import ua.sinitsyn.repo.ReportRepository;
 import ua.sinitsyn.service.ReportService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("cabinet/user")
@@ -25,8 +27,14 @@ public class UserCabinetController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getListReport(Authentication auth, Model model){
         User user = (User) auth.getPrincipal();
-        List<Report> reports = reportService.findVyUser(user);
-        model.addAttribute("reportList", reports);
+        List<Report> reports = reportService.findByUser(user);
+        List<ReportDto> reportDtoList = reports.stream().map(report -> ReportDto.builder().
+                id(report.getId()).
+                value(report.getValue()).
+                reportStatus(report.getReportStatus().name()).
+                build()
+        ).collect(Collectors.toList());
+        model.addAttribute("reportList", reportDtoList);
         model.addAttribute("username",user.getUsername());
         return "userCabinet";
     }
@@ -34,11 +42,12 @@ public class UserCabinetController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity addTask(Authentication auth,
-                                  @RequestBody ReportDto reportDto) {
+                                  @RequestBody ReportInputDto reportDto) {
         User user = (User) auth.getPrincipal();
         reportService.saveReport(Report.builder().
                 value(reportDto.getValue()).
                 user(user).
+                reportStatus(ReportStatus.SENT).
                 build());
 
         return new ResponseEntity(HttpStatus.OK);
