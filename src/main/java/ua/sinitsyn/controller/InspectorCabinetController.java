@@ -1,5 +1,6 @@
 package ua.sinitsyn.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("cabinet/inspector")
 public class InspectorCabinetController {
+    static Logger log = Logger.getLogger(InspectorCabinetController.class.getName());
 
     @Autowired
     ReportService reportService;
@@ -49,11 +51,11 @@ public class InspectorCabinetController {
 
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ResponseEntity addTask(@RequestBody ReportDtoInspectorStatus reportDto) {
+    public ResponseEntity updateTask(@RequestBody ReportDtoInspectorStatus reportDto) {
         Report report = reportService.findById(reportDto.getId()).get();
         report.setReportStatus(ReportStatus.valueOf(reportDto.getReportStatus()));
         reportService.saveReport(report);
-
+        log.info("Inspector is updating a status of the report: "+reportDto.getId()+" "+reportDto.getReportStatus());
         return new ResponseEntity(HttpStatus.OK);
     }
 

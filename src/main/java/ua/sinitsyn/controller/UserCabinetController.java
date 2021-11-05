@@ -1,5 +1,6 @@
 package ua.sinitsyn.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("cabinet/user")
 public class UserCabinetController {
+    static Logger log = Logger.getLogger(UserCabinetController.class.getName());
 
     @Autowired
     ReportService reportService;
@@ -44,6 +46,7 @@ public class UserCabinetController {
     public ResponseEntity addTask(Authentication auth,
                                   @RequestBody ReportInputDto reportDto) {
         User user = (User) auth.getPrincipal();
+        log.info("User ("+user.getEmail()+") is creating new report: "+reportDto.getValue());
         reportService.saveReport(Report.builder().
                 value(reportDto.getValue()).
                 user(user).
